@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- primeira landing page -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Noticias</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .card {
+      background: #f0f0f0;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>📰 BREAKING NEWS</h1> <!-- titulo -->
+  <!-- News form definimos o tipo de labels selecionaveis para input alem de garantir que os campos sejam preenchidos -->
+  <form id="newsForm">
+    <label>Nome: <input type="text" id="nome" required></label><br><br>
+    <label>Idade: <input type="number" id="idade" required></label><br><br>
+    <label>Profissão:
+      <select id="profissao" required>
+        <option value="">-- Selecione uma profissão --</option>
+        <option value="Programador">Programador</option>
+        <option value="Cientista">Cientista</option>
+        <option value="Professor">Professor</option>
+        <option value="Designer">Designer</option>
+        <option value="Desempregado">Desempregado</option>
+      </select>
+    </label><br><br>
+    <button type="submit">Gerar Notícia</button>
+  </form>
+
+  <div class="card" id="resultado"></div>
+
+  <script>
+    document.getElementById("newsForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nome = document.getElementById("nome").value;
+      const idade = parseInt(document.getElementById("idade").value);
+      const profissao = document.getElementById("profissao").value;
+
+      if (!profissao) {
+        alert("Por favor, selecione uma profissão.");
+        return;
+      }
+
+      alert("Preparando a materia aguarde um momento isso leva alguns segundos...");
+
+      // tabela de profissoes genericas e seus salarios com generic data
+      const salarios = {
+        "Programador": 8800.00,
+        "Cientista": 9500.00,
+        "Professor": 4200.00,
+        "Designer": 5300.50,
+        "Desempregado": 0.00
+      };
+      // as noticias exibidas de forma diferente dependendo da escolha chave das profissoes, estas noticias genericas foram geradas com auxilio de inteligencia artificial
+      const noticias = {
+        "Programador": {
+          titulo: "Tecnologia Revoluciona o Mundo",
+          subtitulo: "Novo framework criado por dev brasileiro conquista o Vale do Silício.",
+          conteudo: "Com apenas alguns meses de desenvolvimento, o novo framework 'HyperNode.js' criado por programadores independentes promete mudar a forma como lidamos com aplicações web."
+        },
+        "Cientista": {
+          titulo: "Descoberta Científica Promete Curar Doenças Raras",
+          subtitulo: "Pesquisadores brasileiros ganham destaque internacional.",
+          conteudo: "Uma equipe de cientistas desenvolveu uma técnica inovadora capaz de reverter doenças genéticas em estágios iniciais, marcando uma nova era na medicina."
+        },
+        "Professor": {
+          titulo: "Educação Entra na Era Digital",
+          subtitulo: "Novos métodos de ensino engajam alunos com tecnologia.",
+          conteudo: "Professores estão utilizando realidade aumentada e inteligência artificial para tornar aulas mais envolventes e interativas."
+        },
+        "Designer": {
+          titulo: "Design Brasileiro Ganha o Mundo",
+          subtitulo: "Ilustração de artista nacional vira capa da Vogue.",
+          conteudo: "Um designer gráfico de Curitiba teve sua arte estampada na capa da Vogue Itália, em uma edição histórica dedicada ao talento latino-americano."
+        },
+        "Desempregado": {
+          titulo: "Empreendedorismo é Caminho para Novos Começos",
+          subtitulo: "Desempregados se reinventam e abrem o próprio negócio.",
+          conteudo: "Em tempos difíceis, muitos brasileiros têm apostado em pequenos negócios criativos para mudar de vida e garantir seu sustento."
+        }
+      };
+
+      const salario = salarios[profissao];
+      const salarioFormatado = `R$${salario.toFixed(2).replace('.', ',')}`;
+
+      const mensagemSalario = (salario > 0)
+        ? `O salario médio de um(a) ${profissao.toLowerCase()} é de ${salarioFormatado}.`
+        : `Infelizmente, um(a) ${profissao.toLowerCase()} não possui salario no momento.`;
+
+      const noticia = noticias[profissao];
+      // fazendo o uso das nossas variaveis, listando o nome de usuario e profissao
+      const resultadoHTML = `
+        <h2>🚨 NOTÍCIA URGENTE</h2>
+        <p><strong>Titulo:</strong> ${noticia.titulo}</p>
+        <p><strong>Subtitulo:</strong> ${noticia.subtitulo}</p>
+        <p><strong>Conteudo:</strong> "${noticia.conteudo}"</p>
+        <p><strong>Usuario:</strong> ${nome}, ${idade} anos — Profissao: ${profissao}</p>
+        <p><strong>Salario:</strong> ${mensagemSalario}</p>
+      `;
+
+      document.getElementById("resultado").innerHTML = resultadoHTML;
+    });
+  </script>
+</body>
+</html>
